@@ -8,9 +8,14 @@ class DaMengConnection {
 
   async connect() {
     try {
-      console.log('Connecting to DaMeng database...', this.config);
       const connectString = `dm://${this.config.user}:${this.config.password}@${this.config.host}:${this.config.port}?schema=${this.config.schema || 'SYSDBA'}`;
-      console.log('Connecting to DaMeng database...', connectString);
+      console.error('Connecting to DaMeng database...', {
+        host: this.config.host,
+        port: this.config.port,
+        user: this.config.user,
+        schema: this.config.schema || 'SYSDBA',
+        poolSize: this.config.poolSize || 10
+      });
       this.connection = await dmdb.createPool({
         connectString: connectString,
         poolMax: this.config.poolSize || 10,
